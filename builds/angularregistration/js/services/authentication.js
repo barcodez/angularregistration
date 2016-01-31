@@ -1,4 +1,4 @@
-myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', 'FIREBASE_URL'
+myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', 'FIREBASE_URL',
 	function($rootScope, $firebaseAuth, FIREBASE_URL) {
 
 	var ref = new Firebase(FIREBASE_URL);
@@ -6,7 +6,7 @@ myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', 'FIREBASE_URL'
 
 	return {
 		login: function(user) {
-			$rootScope.message = "Welcome " + $rootScope.user.email;
+			$rootScope.message = "Welcome " + user.email;
 		}, //login
 
 		register: function(user) {
@@ -14,6 +14,14 @@ myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', 'FIREBASE_URL'
 				email: user.email,
 				password: user.password
 			}).then(function(regUser){
+				var regRef = new Firebase(FIREBASE_URL + 'users')
+				.child(regUser.uid).set({
+					date: Firebase.ServerValue.TIMESTAMP,
+					regUser: regUser.uid,
+					firstname: user.firstname,
+					lastname: user.lastname,
+					email: user.email
+				}); // user info
 				$rootScope.message = "Hi " + user.firstname + ", thanks for registering.";
 			}).catch(function(errorInfo){
 				$rootScope.message = errorInfo.message;
