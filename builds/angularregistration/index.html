@@ -25,7 +25,11 @@
 <header>
   <nav class="cf" ng-include="'views/nav.html'"></nav>
 </header>
-<div class="page">
+<div class="page" ng-controller="RegistrationController">
+  <div class="userinfo" ng-show="currentUser">
+    <span class="userinfo">Hi {{currentUser.firstname}}</span>
+    <a ng-href="#/login" ng-click="logout()">Logout</a>
+  </div>
   <main class="cf" ng-view>
   	{{ message }}
   </main>
