@@ -25,11 +25,15 @@ myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', '$firebaseObject
 			}).catch(function(errorInfo){
 				$rootScope.message = errorInfo.message;	
 			});
-		}, //login
+		},  //login
 
 		logout: function() {
 			return auth.$unauth();
-		}, // logout
+		},  // logout
+
+		requireAuth: function() {
+			return auth.$requireAuth();
+		},  // requireAuth
 
 		register: function(user) {
 			auth.$createUser({
